@@ -90,10 +90,11 @@ public class TaskManagerServiceImpl implements TaskManagerService {
     }
 
     public Subtask removeSubTask(int subTaskId) {
-        epics.get(subtasks.get(subTaskId).getEpicId())
-                .getSubTasksIds()
-                .remove(Integer.valueOf(subTaskId));
-        return subtasks.remove(subTaskId);
+        Epic epic = epics.get(subtasks.get(subTaskId).getEpicId());
+        Subtask removedSubTask = subtasks.remove(subTaskId);
+        epic.getSubTasksIds().remove(Integer.valueOf(subTaskId));
+        updateEpicStatus(epic);
+        return removedSubTask;
     }
 
     //epics
