@@ -5,18 +5,25 @@ import service.HistoryManagerService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class InMemoryHistoryManagerServiceImpl implements HistoryManagerService {
 
-    private final List<Task> browsingHistory = new ArrayList<>(10);
+    private static final int MAX_BROWSING_TASKS = 10;
+
+    private final List<Task> browsingHistory = new ArrayList<>(MAX_BROWSING_TASKS);
 
     @Override
     public List<Task> getHistory() {
-        return browsingHistory;
+        return List.copyOf(browsingHistory);
     }
 
     @Override
     public void add(Task task) {
+        if (Objects.isNull(task)) {
+            return;
+        }
+
         if (browsingHistory.size() == 10) {
             browsingHistory.removeFirst();
         }
