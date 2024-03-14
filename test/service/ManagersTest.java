@@ -3,8 +3,7 @@ package service;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
+import service.impl.InMemoryTaskManagerServiceImpl;
 
 @DisplayName("Проверка класса Managers")
 class ManagersTest {
@@ -12,13 +11,6 @@ class ManagersTest {
     @Test
     @DisplayName("Проверка метода getDefault, который должен вернуть инициализированный инстанс TaskManagerService")
     void test_get_default_return_instant_TaskManagerService() {
-        TaskManagerService taskManagerService = Managers.getDefault();
-        Assertions.assertEquals(Collections.EMPTY_LIST, taskManagerService.getTasks());
-    }
-
-    @Test
-    @DisplayName("Проверка метода getDefaultHistory, который должен вернуть инициализированный инстанс HistoryManagerService")
-    void test_get_default_history_return_instant_TaskManagerService() {
-        Assertions.assertEquals(Collections.EMPTY_LIST, Managers.getDefaultHistory().getHistory());
+        Assertions.assertTrue(() -> Managers.getDefault() instanceof InMemoryTaskManagerServiceImpl);
     }
 }

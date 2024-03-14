@@ -1,18 +1,17 @@
 package service.impl;
 
 import enums.TaskStatus;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 import model.Epic;
 import model.Subtask;
 import model.Task;
 import service.HistoryManagerService;
 import service.Managers;
 import service.TaskManagerService;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
 
 public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
 
@@ -30,6 +29,7 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
     }
 
     public void removeAllTasks() {
+        tasks.keySet().forEach(historyManagerService::remove);
         tasks.clear();
     }
 
@@ -55,6 +55,7 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
     }
 
     public Task removeTask(int taskId) {
+        historyManagerService.remove(taskId);
         return tasks.remove(taskId);
     }
 
@@ -64,6 +65,7 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
     }
 
     public void removeAllSubTasks() {
+        subtasks.keySet().forEach(historyManagerService::remove);
         epics.values()
                 .forEach(epic -> epic.getSubTasksIds()
                         .removeAll(new ArrayList<>(subtasks.keySet())));
@@ -76,7 +78,7 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
         return subtask;
     }
 
-    public Subtask createSubTask(Subtask subtask) {
+    public Subtask createSubtask(Subtask subtask) {
         taskCount++;
         subtask.setId(taskCount);
         Epic epic = epics.get(subtask.getEpicId());
@@ -89,7 +91,7 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
 
     public Subtask updateSubTask(Subtask subTaskForUpdate) {
         if (!subtasks.containsKey(subTaskForUpdate.getId())
-            || epics.get(subTaskForUpdate.getEpicId()).getId().equals(subTaskForUpdate.getEpicId())) {
+                || epics.get(subTaskForUpdate.getEpicId()).getId().equals(subTaskForUpdate.getEpicId())) {
             logger.info("Подзадача с id " + subTaskForUpdate.getId() + " не найдена");
             return null;
         }
@@ -102,6 +104,7 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
         Subtask removedSubTask = subtasks.remove(subTaskId);
         epic.getSubTasksIds().remove(Integer.valueOf(subTaskId));
         updateEpicStatus(epic);
+        historyManagerService.remove(subTaskId);
         return removedSubTask;
     }
 
@@ -111,6 +114,8 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
     }
 
     public void removeAllEpics() {
+        subtasks.keySet().forEach(historyManagerService::remove);
+        epics.keySet().forEach(historyManagerService::remove);
         subtasks.clear();
         epics.clear();
     }
@@ -139,12 +144,16 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
     }
 
     private void updateEpicStatus(Epic epic) {
+        if (epic.getSubTasksIds().isEmpty()) {
+            epic.setStatus(TaskStatus.NEW);
+            return;
+        }
+
         List<String> subtasksStatuses = getEpicSubTasks(epic.getId()).stream()
                 .map(subtask -> subtask.getStatus().name())
                 .toList();
 
-        if (epic.getSubTasksIds().isEmpty() || subtasksStatuses.stream()
-                .allMatch(s -> s.equals(TaskStatus.NEW.name()))) {
+        if (subtasksStatuses.stream().allMatch(s -> s.equals(TaskStatus.NEW.name()))) {
             epic.setStatus(TaskStatus.NEW);
             return;
         }
@@ -159,7 +168,11 @@ public class InMemoryTaskManagerServiceImpl implements TaskManagerService {
     public Epic removeEpicById(int epicId) {
         getEpicSubTasks(epicId).stream()
                 .map(Subtask::getId)
-                .forEach(subtasks::remove);
+                .forEach(id -> {
+                    historyManagerService.remove(id);
+                    subtasks.remove(id);
+                });
+        historyManagerService.remove(epicId);
         return epics.remove(epicId);
     }
 

@@ -1,10 +1,9 @@
 package service;
 
+import java.util.List;
 import model.Epic;
 import model.Subtask;
 import model.Task;
-
-import java.util.List;
 
 public interface TaskManagerService {
 
@@ -26,7 +25,7 @@ public interface TaskManagerService {
 
     Subtask getSubTaskById(int subTaskId);
 
-    Subtask createSubTask(Subtask subtask);
+    Subtask createSubtask(Subtask subtask);
 
     Subtask updateSubTask(Subtask subTaskForUpdate);
 
