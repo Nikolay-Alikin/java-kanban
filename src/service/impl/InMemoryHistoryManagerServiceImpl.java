@@ -24,9 +24,7 @@ public class InMemoryHistoryManagerServiceImpl implements HistoryManagerService 
         if (Objects.isNull(task)) {
             return;
         }
-        if (browsingHistory.containsKey(task.getId())) {
-            browsingHistory.removeNode(task.getId());
-        }
+        browsingHistory.removeNode(task.getId());
         browsingHistory.linkLast(task);
     }
 
@@ -46,13 +44,11 @@ public class InMemoryHistoryManagerServiceImpl implements HistoryManagerService 
 
         private void linkLast(Task task) {
             Node taskNode = new Node(task);
-            if (head != null && tail != null) {
+            if (head != null) {
                 taskNode.prevNode = tail;
                 tail.nextNode = taskNode;
-                historyMap.put(task.getId(), taskNode);
             } else {
                 head = taskNode;
-                historyMap.put(task.getId(), taskNode);
             }
             tail = taskNode;
             historyMap.put(task.getId(), taskNode);
@@ -71,20 +67,21 @@ public class InMemoryHistoryManagerServiceImpl implements HistoryManagerService 
 
         public void removeNode(int taskId) {
             Node nodeForRemove = historyMap.get(taskId);
-            if (nodeForRemove != null) {
-                if (nodeForRemove.prevNode == null && nodeForRemove.nextNode == null) {
-                    head = null;
-                    tail = null;
-                } else if (nodeForRemove.prevNode == null) {
-                    head = nodeForRemove.nextNode;
-                    head.prevNode = null;
-                } else if (nodeForRemove.nextNode == null) {
-                    tail = nodeForRemove.prevNode;
-                    tail.nextNode = null;
-                } else {
-                    nodeForRemove.prevNode.nextNode = nodeForRemove.nextNode;
-                    nodeForRemove.nextNode.prevNode = nodeForRemove.prevNode;
-                }
+            if (nodeForRemove == null) {
+                return;
+            }
+            if (nodeForRemove.prevNode == null && nodeForRemove.nextNode == null) {
+                head = null;
+                tail = null;
+            } else if (nodeForRemove.prevNode == null) {
+                head = nodeForRemove.nextNode;
+                head.prevNode = null;
+            } else if (nodeForRemove.nextNode == null) {
+                tail = nodeForRemove.prevNode;
+                tail.nextNode = null;
+            } else {
+                nodeForRemove.prevNode.nextNode = nodeForRemove.nextNode;
+                nodeForRemove.nextNode.prevNode = nodeForRemove.prevNode;
             }
         }
 
