@@ -1,6 +1,7 @@
 package model;
 
 import enums.TaskStatus;
+
 import java.util.Objects;
 
 public class Task {
@@ -76,11 +77,11 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        return id + ",TASK," + title + "," + status + "," + description + ",";
+    }
+
+    public static Task fromString(String task) {
+        String[] parts = task.split(",");
+        return new Task(Integer.valueOf(parts[0]), parts[2], parts[4], TaskStatus.valueOf(parts[3]));
     }
 }
