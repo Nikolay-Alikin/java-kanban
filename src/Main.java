@@ -1,4 +1,5 @@
 import java.time.OffsetDateTime;
+import java.util.List;
 import model.Epic;
 import model.Subtask;
 import model.Task;
@@ -68,5 +69,19 @@ public class Main {
         System.out.println(taskManager.getHistory());
         System.out.println("----------------------------------------------");
         System.out.println(taskManager.getHistory().size());
+
+        TaskManagerService newTaskManager = Managers.getDefault();
+
+        System.out.println(
+                "--------------ТАСКИ ДОЛЖНЫ СОВПАДАТЬ В ОБОИХ МЕНЕДЖЕРАХ--------------");
+
+        List<List<? extends Task>> taskBeforeExit = List.of(taskManager.getTasks(), taskManager.getEpics(),
+                taskManager.getSubTasks());
+
+        List<List<? extends Task>> tasksAfterExit = List.of(newTaskManager.getTasks(), newTaskManager.getEpics(),
+                newTaskManager.getSubTasks());
+
+        System.out.println("tasksBeforeExit: " + taskBeforeExit);
+        System.out.println("tasksAfterExit: " + tasksAfterExit);
     }
 }
