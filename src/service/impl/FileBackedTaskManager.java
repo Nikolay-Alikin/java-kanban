@@ -2,11 +2,6 @@ package service.impl;
 
 import enums.TaskType;
 import exception.ManagerSaveException;
-import model.Epic;
-import model.Subtask;
-import model.Task;
-import service.HistoryManagerService;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
+import model.Epic;
+import model.Subtask;
+import model.Task;
+import service.HistoryManagerService;
 
 public class FileBackedTaskManager extends InMemoryTaskManagerServiceImpl {
 
@@ -200,8 +199,8 @@ public class FileBackedTaskManager extends InMemoryTaskManagerServiceImpl {
             if (line.isEmpty() || line.isBlank()) {
                 logger.info("Все задачи десериализованы");
             } else if (!line.contains(TaskType.TASK.toString())
-                       && !line.contains(TaskType.SUBTASK.toString())
-                       && !line.contains(TaskType.EPIC.toString())) {
+                    && !line.contains(TaskType.SUBTASK.toString())
+                    && !line.contains(TaskType.EPIC.toString())) {
                 historyFromString(line, fileBackedTaskManager);
             } else {
                 String[] parts = line.split(",");

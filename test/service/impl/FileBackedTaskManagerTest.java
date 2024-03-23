@@ -1,6 +1,11 @@
 package service.impl;
 
 import enums.TaskStatus;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 import model.Epic;
 import model.Subtask;
 import model.Task;
@@ -8,12 +13,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.stream.Stream;
 
 @DisplayName("Тестирование FileBackedTaskManager")
 class FileBackedTaskManagerTest {
