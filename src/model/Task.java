@@ -1,7 +1,6 @@
 package model;
 
 import enums.TaskStatus;
-
 import java.util.Objects;
 
 public class Task {
@@ -28,6 +27,9 @@ public class Task {
     }
 
     public void setId(Integer id) {
+        if (this.id != 0) {
+            return;
+        }
         this.id = id;
     }
 
@@ -75,10 +77,10 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-               "id=" + id +
-               ", title='" + title + '\'' +
-               ", description='" + description + '\'' +
-               ", status=" + status +
-               '}';
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

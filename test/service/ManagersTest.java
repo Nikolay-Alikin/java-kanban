@@ -1,10 +1,9 @@
 package service;
 
+import java.util.Collections;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Collections;
 
 @DisplayName("Проверка класса Managers")
 class ManagersTest {
