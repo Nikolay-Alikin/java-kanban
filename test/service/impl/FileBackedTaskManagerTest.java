@@ -50,7 +50,7 @@ class FileBackedTaskManagerTest {
     @Test
     @DisplayName("Проверка сохранения и загрузки пустого файла")
     void saveAndLoadEmptyFile() {
-        taskManagerForRead = new FileBackedTaskManager(tempFile.toString());
+        taskManagerForRead = FileBackedTaskManager.loadFromFile(tempFile.toString());
         Assertions.assertAll(() -> {
             Assertions.assertEquals(0, taskManagerForSave.getTasks().size());
             Assertions.assertEquals(0, taskManagerForSave.getEpics().size());
@@ -70,7 +70,7 @@ class FileBackedTaskManagerTest {
         taskManagerForSave.createSubtask(subtask1);
         taskManagerForSave.createSubtask(subtask2);
 
-        taskManagerForRead = new FileBackedTaskManager(tempFile.toString());
+        taskManagerForRead = FileBackedTaskManager.loadFromFile(tempFile.toString());
 
         Assertions.assertAll(
                 () -> {
@@ -97,7 +97,7 @@ class FileBackedTaskManagerTest {
         taskManagerForSave.getTaskById(task1.getId());
         taskManagerForSave.getEpicById(epic1.getId());
 
-        taskManagerForRead = new FileBackedTaskManager(tempFile.toString());
+        taskManagerForRead = FileBackedTaskManager.loadFromFile(tempFile.toString());
 
         Assertions.assertAll(() -> {
             Assertions.assertEquals(taskManagerForSave.getHistory(), taskManagerForRead.getHistory());
@@ -118,7 +118,7 @@ class FileBackedTaskManagerTest {
 
         taskManagerForSave.updateTask(updatedTask);
 
-        taskManagerForRead = new FileBackedTaskManager(tempFile.toString());
+        taskManagerForRead = FileBackedTaskManager.loadFromFile(tempFile.toString());
 
         Assertions.assertEquals(taskManagerForRead.getTaskById(task1.getId()).getTitle(), updatedTask.getTitle());
     }
@@ -136,7 +136,7 @@ class FileBackedTaskManagerTest {
 
         taskManagerForSave.removeSubTask(subtask1.getId());
 
-        taskManagerForRead = new FileBackedTaskManager(tempFile.toString());
+        taskManagerForRead = FileBackedTaskManager.loadFromFile(tempFile.toString());
 
         Assertions.assertEquals(taskManagerForSave.getSubTasks(), taskManagerForRead.getSubTasks());
     }

@@ -5,9 +5,11 @@ import model.Subtask;
 import model.Task;
 import service.Managers;
 import service.TaskManagerService;
+import service.impl.FileBackedTaskManager;
 
 public class Main {
 
+    private static final String saveFile = "save/saveFile.csv";
     public static void main(String[] args) {
         System.out.println("Программа стартовала в: " + OffsetDateTime.now());
         TaskManagerService taskManager = Managers.getDefault();
@@ -70,7 +72,7 @@ public class Main {
         System.out.println("----------------------------------------------");
         System.out.println(taskManager.getHistory().size());
 
-        TaskManagerService newTaskManager = Managers.getDefault();
+        TaskManagerService newTaskManager = FileBackedTaskManager.loadFromFile(saveFile);
 
         System.out.println(
                 "--------------ТАСКИ ДОЛЖНЫ СОВПАДАТЬ В ОБОИХ МЕНЕДЖЕРАХ--------------");
