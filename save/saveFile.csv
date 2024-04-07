@@ -1,6 +1,6 @@
-id,type,name,status,description,epic
-1,TASK,Закончить выполнение ТЗ,NEW,Желательно сегодня
-2,TASK,Поиграть с котом,NEW,давно с ним не играли
-4,EPIC,Навести порядок в квартире,NEW,завтра
+id,type,name,status,description,epic,duration,startTime,endTime
+1,TASK,Закончить выполнение ТЗ,NEW,Желательно сегодня,PT24H,2024-04-07T22:33:44.213210500
+2,TASK,Поиграть с котом,NEW,давно с ним не играли,PT24H,2024-04-09T22:33:44.214210500
+4,EPIC,Навести порядок в квартире,NEW,завтра,PT0S,null,null
 
 2,4,1
