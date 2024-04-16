@@ -1,7 +1,10 @@
 package service.impl;
 
-import enums.TaskStatus;
+import enumerated.TaskStatus;
 import exception.ManagerSaveException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
 import model.Epic;
 import model.Subtask;
 import model.Task;
@@ -9,10 +12,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import service.TaskManagerService;
-
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
 
 abstract class TaskManagerTest<T extends TaskManagerService> {
 
