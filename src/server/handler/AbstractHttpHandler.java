@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 public abstract class AbstractHttpHandler<T> implements HttpHandler {
 
     private static final Logger logger = Logger.getLogger(AbstractHttpHandler.class.getName());
-    protected int httpOk = 200;
+    protected final int httpOk = 200;
     protected final int httpCreated = 201;
     protected final int notFound = 404;
     protected final int notAcceptable = 406;

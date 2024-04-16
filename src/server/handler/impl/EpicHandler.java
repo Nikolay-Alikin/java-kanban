@@ -49,9 +49,9 @@ public class EpicHandler extends AbstractHttpHandler<Epic> {
     private void processGetEpicSubtasksReq(int epicId) {
         List<Subtask> epicSubTasks = taskManagerService.getEpicSubTasks(epicId);
         if (epicSubTasks.isEmpty()) {
-            sendResponse(Map.of(HTTP_NOT_FOUND, List.of("Подзадачи для эпика с id " + epicId + " не найдены")));
+            sendResponse(Map.of(httpNotFound, List.of("Подзадачи для эпика с id " + epicId + " не найдены")));
             return;
         }
-        sendResponse(Map.of(httpOk = 200, epicSubTasks));
+        sendResponse(Map.of(httpOk, epicSubTasks));
     }
 }

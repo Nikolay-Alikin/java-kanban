@@ -18,6 +18,6 @@ public class PrioritizedHandler extends AbstractHttpHandler<Task> {
     @Override
     public void handle(HttpExchange exchange) {
         getRequestParams(exchange);
-        sendResponse(Map.of(HTTP_OK, taskManagerService.getPrioritizedTasks()));
+        sendResponse(Map.of(httpOk, taskManagerService.getPrioritizedTasks()));
     }
 }
