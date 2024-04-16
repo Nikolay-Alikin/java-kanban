@@ -10,7 +10,6 @@ import service.TaskManagerService;
 import java.util.List;
 import java.util.Map;
 
-import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 
 public class EpicHandler extends AbstractHttpHandler<Epic> {
 
