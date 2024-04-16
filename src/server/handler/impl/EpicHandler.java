@@ -52,6 +52,6 @@ public class EpicHandler extends AbstractHttpHandler<Epic> {
             sendResponse(Map.of(HTTP_NOT_FOUND, List.of("Подзадачи для эпика с id " + epicId + " не найдены")));
             return;
         }
-        sendResponse(Map.of(HTTP_OK, epicSubTasks));
+        sendResponse(Map.of(httpOk = 200, epicSubTasks));
     }
 }

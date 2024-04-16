@@ -30,10 +30,10 @@ import java.util.logging.Logger;
 public abstract class AbstractHttpHandler<T> implements HttpHandler {
 
     private static final Logger logger = Logger.getLogger(AbstractHttpHandler.class.getName());
-    protected final int HTTP_OK = 200;
-    protected final int HTTP_CREATED = 201;
-    protected final int NOT_FOUND = 404;
-    protected final int NOT_ACCEPTABLE = 406;
+    protected int httpOk = 200;
+    protected final int httpCreated = 201;
+    protected final int notFound = 404;
+    protected final int notAcceptable = 406;
     protected final Gson gson = new GsonBuilder()
             .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
@@ -143,13 +143,13 @@ public abstract class AbstractHttpHandler<T> implements HttpHandler {
     protected Map<Integer, List<T>> update(Function<T, T> function, T t) {
         try {
             if (function.apply(t) == null) {
-                return Map.of(NOT_FOUND, Collections.emptyList());
+                return Map.of(notFound, Collections.emptyList());
             }
-            return Map.of(HTTP_CREATED, List.of(function.apply(t)));
+            return Map.of(httpCreated, List.of(function.apply(t)));
         } catch (ManagerSaveException e) {
             String message = "Задача пересекается с одной из существующих. Выберете другое время.";
             logger.info(message);
-            sendResponse(Map.of(NOT_ACCEPTABLE, List.of(message)));
+            sendResponse(Map.of(notAcceptable, List.of(message)));
             throw new RuntimeException(e);
         }
     }
@@ -157,34 +157,34 @@ public abstract class AbstractHttpHandler<T> implements HttpHandler {
 
     protected Map<Integer, List<T>> create(Function<T, T> function, T t) {
         try {
-            return Map.of(HTTP_CREATED, List.of(function.apply(t)));
+            return Map.of(httpCreated, List.of(function.apply(t)));
         } catch (ManagerSaveException e) {
             String message = "Задача пересекается с одной из существующих. Выберете другое время.";
             logger.info(message);
-            sendResponse(Map.of(NOT_ACCEPTABLE, List.of(message)));
+            sendResponse(Map.of(notAcceptable, List.of(message)));
             throw new RuntimeException(e);
         }
     }
 
     protected <S extends List<T>> Map<Integer, List<T>> getAll(Supplier<S> service) {
-        return Map.of(HTTP_OK, service.get());
+        return Map.of(httpOk, service.get());
     }
 
     protected <I> Map<Integer, List<T>> getById(Function<I, T> function, I i) {
         T task = function.apply(i);
         if (task == null) {
-            return Map.of(NOT_FOUND, Collections.emptyList());
+            return Map.of(notFound, Collections.emptyList());
         }
-        return Map.of(HTTP_OK, List.of(task));
+        return Map.of(httpOk, List.of(task));
     }
 
     protected <V> Map<Integer, List<V>> removeAll(Runnable service) {
         service.run();
-        return Map.of(HTTP_OK, Collections.emptyList());
+        return Map.of(httpOk, Collections.emptyList());
     }
 
     protected <I> Map<Integer, List<T>> removeById(Function<I, T> function, I i) {
         T removedTask = function.apply(i);
-        return Map.of(HTTP_OK, List.of(removedTask));
+        return Map.of(httpOk, List.of(removedTask));
     }
 }

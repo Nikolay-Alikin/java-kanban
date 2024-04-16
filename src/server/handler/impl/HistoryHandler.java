@@ -18,6 +18,6 @@ public class HistoryHandler extends AbstractHttpHandler<Task> {
     @Override
     public void handle(HttpExchange exchange) {
         getRequestParams(exchange);
-        sendResponse(Map.of(HTTP_OK, taskManagerService.getHistory()));
+        sendResponse(Map.of(httpOk, taskManagerService.getHistory()));
     }
 }
