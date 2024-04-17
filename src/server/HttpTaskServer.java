@@ -24,9 +24,8 @@ public class HttpTaskServer {
     private static final String EPICS = "/epics";
     private static final String HISTORY = "/history";
     private static final String PRIORITIZED = "/prioritized";
-    private static final String saveFile = Managers.SAVE_FILE;
 
-    private static HttpServer httpServer;
+    private HttpServer httpServer;
 
     public static void main(String[] args) throws IOException {
         HttpTaskServer httpTaskServer = new HttpTaskServer();
@@ -34,6 +33,7 @@ public class HttpTaskServer {
     }
 
     public void start() throws IOException {
+        String saveFile = "save/saveFile.csv";
         Path path = Path.of(saveFile);
         TaskManagerService service;
         if (Files.exists(path)) {

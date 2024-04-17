@@ -8,7 +8,7 @@ import com.sun.net.httpserver.HttpHandler;
 import config.DurationTypeAdapter;
 import config.LocalDateTimeTypeAdapter;
 import exception.ManagerSaveException;
-import exception.MethodNotImplemented;
+import exception.MethondNotAllowed;
 import server.enumerated.HttpMethod;
 import server.model.RequestParams;
 
@@ -34,6 +34,7 @@ public abstract class AbstractHttpHandler<T> implements HttpHandler {
     protected final int httpCreated = 201;
     protected final int notFound = 404;
     protected final int notAcceptable = 406;
+    protected final int methodNotAllowed = 405;
     protected final Gson gson = new GsonBuilder()
             .registerTypeAdapter(Duration.class, new DurationTypeAdapter())
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
@@ -128,7 +129,8 @@ public abstract class AbstractHttpHandler<T> implements HttpHandler {
         if (requestMethod.equals(HttpMethod.DELETE.toString())) {
             return HttpMethod.DELETE;
         }
-        throw new MethodNotImplemented("Метод " + requestMethod + " не поддерживается");
+        sendResponse(Map.of(methodNotAllowed, List.of("Метод " + requestMethod + " не поддерживается")));
+        throw new MethondNotAllowed("Метод " + requestMethod + " не поддерживается");
     }
 
     protected Optional<Integer> getTaskIdFromPath(HttpExchange httpExchange) {
