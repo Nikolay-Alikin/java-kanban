@@ -1,16 +1,13 @@
 package service.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import model.Task;
 import service.HistoryManagerService;
 
-public class InMemoryHistoryManagerServiceImpl implements HistoryManagerService {
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class InMemoryHistoryManagerService implements HistoryManagerService {
 
     private final LinkedHistoryHashMap browsingHistory = new LinkedHistoryHashMap();
 

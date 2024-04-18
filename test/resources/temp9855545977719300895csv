@@ -1,0 +1,4 @@
+id,type,name,status,description,epic,duration,startTime,endTime
+1,TASK,Закончить выполнение ТЗ,NEW,Желательно сегодня,PT24H,2024-04-16T14:36:10.127114600
+2,TASK,Поиграть с котом,NEW,давно с ним не играли,PT24H,2024-04-18T14:36:10.127114600
+
